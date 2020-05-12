@@ -39,7 +39,6 @@ Links and images
 
 [linked phrase](http://example.com)
 
-![optional caption text](path/to/img.png)
 
 Tables 
 ------------------------------------------------------------

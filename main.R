@@ -2,6 +2,7 @@ setwd("~/GitHub/datasciencecoursera")
 
 library(randomForest)
 library(rpart)
+library(rpart.plot)
 require(splines)
 
 pre_process <- function(name_file){
@@ -12,8 +13,17 @@ pre_process <- function(name_file){
 }
 
 compute_error <- function(y_pred, y_test){
-  error <- 1.0 - sum(y_test == pred_RF)/length(y_test)
+  error <- 1.0 - sum(y_test == y_pred)/length(y_test)
   return(error)
+}
+
+print_result <- function(name, result){
+  cat('\n')
+  cat(name)
+  cat(': Mean = ')
+  cat(mean(result))
+  cat(' Std = ')
+  cat(sd(result))
 }
 
 data_training <- pre_process('pml-training')
@@ -39,16 +49,18 @@ for (k in 1:n_folds) {
   y_test <- test_xy$classe
   
   #Random Forest (RF)
-  fitted_RF <- randomForest(x_train, y_train, prox=TRUE, ntree=10)
+  fitted_RF <- randomForest(x_train, y_train, prox=TRUE, ntree=50)
   #Decision Tree (DT)
-  fitted_DT <- rpart(formula = classe ~ ., data = train_xy,control = rpart.control(minsplit = 10))
+  fitted_DT <- rpart(formula = classe ~ ., data = train_xy,control = rpart.control(minsplit = 10, maxdepth = 15))
   
   #Predictions on testing set
   pred_RF <- predict(fitted_RF,x_test) 
+  #print(pred_RF)
   error_RF <- compute_error(pred_RF, y_test)
   print(error_RF)
   
-  pred_DT <- predict(fitted_DT,x_test) 
+  pred_DT <- predict(fitted_DT, newdata = x_test, type = "class") 
+  #print(pred_DT)
   error_DT <- compute_error(pred_DT, y_test)
   print(error_DT)
   
@@ -58,7 +70,19 @@ for (k in 1:n_folds) {
 }
 cat('\n')
 cat("Results:")
-cat(mean(cv_tmp[,1]))
-cat(sd(cv_tmp[,1]))
-cat(mean(cv_tmp[,2]))
-cat(sd(cv_tmp[,2]))
+print_result('RF', cv_tmp[,1])
+print_result('DT', cv_tmp[,2])
+#cat('\nMean = ')
+#cat(mean(cv_tmp[,1]))
+#cat(' Std = ')
+#cat(sd(cv_tmp[,1]))
+#cat('\nMean = ')
+#cat(mean(cv_tmp[,2]))
+#cat(' Std = ')
+#cat(sd(cv_tmp[,2]))
+
+importances <- importance(fitted_RF)
+variables_name = row.names(importances)
+barplot(as.vector(importances), main="Importance of variables",xlab=NULL, ylab = "Importance", horiz=FALSE, names.arg=variables_name, las=2, cex.names = 0.7)
+
+rpart.plot(fitted_DT)

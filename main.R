@@ -26,9 +26,11 @@ print_result <- function(name, result){
   cat(sd(result))
 }
 
+#-------- Pre-processing
 data_training <- pre_process('pml-training')
 data_testing <- pre_process('pml-testing')
 
+#-------- Cross validation
 set.seed(1000)
 n_train <- nrow(data_training)
 n_folds <- 10
@@ -55,25 +57,24 @@ for (k in 1:n_folds) {
   
   #Predictions on testing set
   pred_RF <- predict(fitted_RF,x_test) 
-  #print(pred_RF)
   error_RF <- compute_error(pred_RF, y_test)
   print(error_RF)
   
   pred_DT <- predict(fitted_DT, newdata = x_test, type = "class") 
-  #print(pred_DT)
-  error_DT <- compute_error(pred_DT, y_test)
+  error_DT <- compute_error(pred_DT, y_test)d
   print(error_DT)
-  
   
   cv_tmp[k,1] <- error_RF
   cv_tmp[k,2] <- error_DT
 }
+
+#-------- Results
 cat('\n')
 cat("Results:")
 print_result('RF', cv_tmp[,1])
 print_result('DT', cv_tmp[,2])
 
-
+#-------- Figures
 importances <- importance(fitted_RF)
 variables_name = row.names(importances)
 barplot(as.vector(importances), main="Importance of variables",xlab=NULL, ylab = "Importance", horiz=FALSE, names.arg=variables_name, las=2, cex.names = 0.7)
@@ -81,6 +82,6 @@ barplot(as.vector(importances), main="Importance of variables",xlab=NULL, ylab =
 rpart.plot(fitted_DT)
 
 layout(matrix(c(1,2),nrow=1), width=c(4,1))
-plot(fitted_RF, main="Number of trees versus error")
-legend("top", inset=c(0,0), colnames(fitted_RF$err.rate),col=1:5,cex=0.5,fill=1:5)
+plot(fitted_RF, main="Number of trees versus error", col=10:15)
+legend("top", inset=c(0,0), colnames(fitted_RF$err.rate),col=10:15,cex=0.5,fill=10:15)
 

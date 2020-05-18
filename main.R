@@ -29,7 +29,7 @@ print_result <- function(name, result){
 data_training <- pre_process('pml-training')
 data_testing <- pre_process('pml-testing')
 
-#set.seed(1000)
+set.seed(1000)
 n_train <- nrow(data_training)
 n_folds <- 10
 folds_i <- sample(rep(1:n_folds, length.out = n_train))
@@ -49,7 +49,7 @@ for (k in 1:n_folds) {
   y_test <- test_xy$classe
   
   #Random Forest (RF)
-  fitted_RF <- randomForest(x_train, y_train, prox=TRUE, ntree=50)
+  fitted_RF <- randomForest(x_train, y_train, prox=TRUE, ntree=200)
   #Decision Tree (DT)
   fitted_DT <- rpart(formula = classe ~ ., data = train_xy,control = rpart.control(minsplit = 10, maxdepth = 15))
   
@@ -72,17 +72,15 @@ cat('\n')
 cat("Results:")
 print_result('RF', cv_tmp[,1])
 print_result('DT', cv_tmp[,2])
-#cat('\nMean = ')
-#cat(mean(cv_tmp[,1]))
-#cat(' Std = ')
-#cat(sd(cv_tmp[,1]))
-#cat('\nMean = ')
-#cat(mean(cv_tmp[,2]))
-#cat(' Std = ')
-#cat(sd(cv_tmp[,2]))
+
 
 importances <- importance(fitted_RF)
 variables_name = row.names(importances)
 barplot(as.vector(importances), main="Importance of variables",xlab=NULL, ylab = "Importance", horiz=FALSE, names.arg=variables_name, las=2, cex.names = 0.7)
 
 rpart.plot(fitted_DT)
+
+layout(matrix(c(1,2),nrow=1), width=c(4,1))
+plot(fitted_RF, main="Number of trees versus error")
+legend("top", inset=c(0,0), colnames(fitted_RF$err.rate),col=1:5,cex=0.5,fill=1:5)
+

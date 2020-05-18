@@ -1,30 +1,14 @@
 ---
-title: "HAR Analysis"
+title: "Course Project"
 author: "Bruno Pimentel"
-date: "16/05/2020"
+date: "May 18, 2020"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
-## R Markdown
+### Introduction
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+This document is part of course project about **Practical Machine Learning** from Cousera. This project concerns about prediction of personal activity. Devices such as Jawbone Up, Nike FuelBand, and Fitbit were used to collect quantified self movement. The goal is to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants and construct models to predict 20 different test cases. The rest of document discuss about the steps used to obtain the results: pre-processing, evaluation and error analysis.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+### Pre-processing
 
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

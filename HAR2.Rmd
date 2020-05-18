@@ -1,11 +1,25 @@
-setwd("~/GitHub/datasciencecoursera")
+---
+title: "Course Project"
+author: "Bruno Pimentel"
+date: "May 18, 2020"
+output: html_document
+---
 
+
+### Introduction
+
+This document is part of course project about **Practical Machine Learning** from Cousera. This project concerns about prediction of personal activity. Devices such as Jawbone Up, Nike FuelBand, and Fitbit were used to collect quantified self movement. The goal is to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants and construct models to predict 20 different test cases. The rest of document discuss about the steps used to obtain the results: pre-processing, evaluation and error analysis.
+
+### Pre-processing
+
+```{r}
 library(randomForest)
 library(rpart)
 library(rpart.plot)
 require(splines)
+```
 
-
+```{r}
 #-------- Pre-processing
 
 #Load data and remove variables
@@ -18,8 +32,11 @@ pre_process <- function(name_file){
 
 data_training <- pre_process('pml-training')
 data_testing <- pre_process('pml-testing')
+```
 
+### Evaluation
 
+```{r}
 #-------- Cross validation
 
 #Compute error
@@ -80,7 +97,11 @@ cat('\n')
 cat("Results:")
 print_result('RF', cv_tmp[,1])
 print_result('DT', cv_tmp[,2])
+```
 
+### Error Analysis
+
+```{r}
 #-------- Figures
 #Importances
 importances <- importance(fitted_RF)
@@ -102,4 +123,11 @@ plot(data_training[,1:3], col=data_training$classe)
 a = 10
 b = 5
 plot(x=data_training[,a], y=data_training[,b], xlab=variables_name[a], ylab=variables_name[b], col=data_training$classe)
+```
+
+![caption.](Figures/importances.png)
+
+![caption.](Figures/most_important.png)
+
+![caption.](Figures/number_tree.png)
 

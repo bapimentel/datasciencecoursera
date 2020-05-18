@@ -75,13 +75,24 @@ print_result('RF', cv_tmp[,1])
 print_result('DT', cv_tmp[,2])
 
 #-------- Figures
+#Importances
 importances <- importance(fitted_RF)
 variables_name = row.names(importances)
 barplot(as.vector(importances), main="Importance of variables",xlab=NULL, ylab = "Importance", horiz=FALSE, names.arg=variables_name, las=2, cex.names = 0.7)
 
+#Tree
 rpart.plot(fitted_DT)
 
+#Number of trees versus error
 layout(matrix(c(1,2),nrow=1), width=c(4,1))
 plot(fitted_RF, main="Number of trees versus error", col=10:15)
 legend("top", inset=c(0,0), colnames(fitted_RF$err.rate),col=10:15,cex=0.5,fill=10:15)
+
+#Most important variables
+plot(data_training[,1:3], col=data_training$classe)
+
+#Pair of variables
+a = 10
+b = 5
+plot(x=data_training[,a], y=data_training[,b], xlab=variables_name[a], ylab=variables_name[b], col=data_training$classe)
 

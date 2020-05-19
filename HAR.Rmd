@@ -116,7 +116,7 @@ print_result('RF', cv_tmp[,1])
 print_result('DT', cv_tmp[,2])
 ```
 
-As expected, Random Forest obtained better result than Decision Tree, since Random Forest used 200 tree to make the prediction. 
+As expected, Random Forest obtained better result than Decision Tree, since Random Forest used 200 trees to make the prediction. 
 
 After executing the cross validation method, the models used in the experiment can show important information about the prediction. The following figure shows the rules obtained by the fitted Decision Tree:
 
@@ -135,7 +135,7 @@ variables_name = row.names(importances)
 barplot(as.vector(importances), main="Importance of variables",xlab=NULL, ylab = "Importance", horiz=FALSE, names.arg=variables_name, las=2, cex.names = 0.7)
 ```
 
-From this figure, it is possible to highlight that "roll_belt", "pitch_belt" and "yaw_belt" are the most relevante to prediction of Random Forest model. The following figure shows the Out of Bag (OOB) score in Random Forest model according to variation of number of trees.
+From this figure, it is possible to highlight that "roll_belt", "pitch_belt" and "yaw_belt" are the most relevante for prediction of Random Forest model. The following figure shows the Out of Bag (OOB) score in Random Forest model according to variation of number of trees.
 
 ```{r}
 #Number of trees versus error
@@ -144,7 +144,7 @@ plot(fitted_RF, main="Number of trees versus error", col=10:15)
 legend("top", inset=c(0,0), colnames(fitted_RF$err.rate),col=10:15,cex=0.5,fill=10:15)
 ```
 
-As expected, for small number of tree, the error is higher. However, the error decreases as the number of trees increases. Also, it is possible to conclude that the error stabilizes when the number of trees is arround 50. It is also important to highlight that the error for class "E" is higher than error for class "C", whatever the number of trees used in the Random Forest model. The following fire shows the dispersion of measures from training data regarding variables "roll_belt" and "yaw_belt".
+As expected, for small number of trees, the error is higher. However, the error decreases as the number of trees increases. Also, it is possible to conclude that the error stabilizes when the number of trees is arround 50. It is also important to highlight that the error for class "E" is higher than error for class "C", whatever the number of trees used in the Random Forest model. The following figure shows the dispersion of measures from training data regarding variables "roll_belt", "pitch_belt" and "yaw_belt".
 
 ```{r}
 #Most important variables

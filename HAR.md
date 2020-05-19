@@ -65,7 +65,7 @@ for (k in 1:n_folds) {
   y_test <- test_xy$classe
   
   #Random Forest (RF)
-  fitted_RF <- randomForest(x_train, y_train, prox=TRUE, ntree=2)
+  fitted_RF <- randomForest(x_train, y_train, prox=TRUE, ntree=200)
   #Decision Tree (DT)
   fitted_DT <- rpart(formula = classe ~ ., data = train_xy,control = rpart.control(minsplit = 10, maxdepth = 15))
   
@@ -124,4 +124,10 @@ a = 10
 b = 5
 plot(x=data_training[,a], y=data_training[,b], xlab=variables_name[a], ylab=variables_name[b], col=data_training$classe)
 ```
+
+![caption.](Figures/importances.png)
+
+![caption.](Figures/most_important.png)
+
+![caption.](Figures/number_tree.png)
 

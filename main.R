@@ -67,12 +67,9 @@ for (k in 1:n_folds) {
 
 #Print mean and standard deviation
 print_result <- function(name, result){
-  cat('\n')
-  cat(name)
-  cat(': Mean = ')
-  cat(mean(result))
-  cat(' Std = ')
-  cat(sd(result))
+  cat('\n', name)
+  cat(': Mean = ', mean(result))
+  cat(' Std = ', sd(result))
 }
 
 #-------- Results
@@ -80,6 +77,13 @@ cat('\n')
 cat("Results:")
 print_result('RF', cv_tmp[,1])
 print_result('DT', cv_tmp[,2])
+
+#Prediction of test data
+pred_RF <- predict(fitted_RF,data_testing) 
+cat('\n Test prediction (RF): ', as.vector(pred_RF))
+
+pred_DT <- predict(fitted_DT, newdata = data_testing, type = "class") 
+cat('\n Test prediction (DT): ', as.vector(pred_DT))
 
 #-------- Figures
 #Importances
